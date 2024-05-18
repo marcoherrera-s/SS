@@ -14,11 +14,13 @@ t0 = 0.0
 tf = 15.0  
 step = 0.01  
 time_vector = t0:step:tf
-order = 8  
-abstol = 1e-10 
+order = 10  
+abstol = 1e-13 
 
 result = taylorinteg(harmonic, q0TN, time_vector, order, abstol)
 
+t, r = taylorinteg(harmonic, u₀, t0, tf, order, abstol)
+r
 n_rows, n_cols = size(result)
 
 # Lista para guardar los vectores de resultados
@@ -44,3 +46,25 @@ anim = @animate for i in 1:500
     plot(time_vector, results_by_time[i][1502:3002], alpha=0.6, label=false, ylim=(-10,10), ylabel="Posición", xlabel="tiempo") #Selecciono los valores asociados a la posición, del 1-1501 son los valores asociados a la velocidad
 end
 gif(anim, "anim_oscilador.gif", fps = 60)  
+
+
+anim2 = @animate for i in 1:500
+    plot(results_by_time[i][1502:3002], results_by_time[i][1:1501], alpha=0.6, label=false, ylim=(-10,10), ylabel="Posición", xlabel="tiempo") #Selecciono los valores asociados a la posición, del 1-1501 son los valores asociados a la velocidad
+end
+gif(anim2, "anim_oscilador2.gif", fps = 60)  
+
+
+
+anim3 = @animate for i in 1:500
+    plot(time_vector[1:i], results_by_time[i][1:i], alpha=0.6, label=false, ylim=(-10,10), xlim=(0,5.5), ylabel="Posición", xlabel="tiempo") #Selecciono los valores asociados a la posición, del 1-1501 son los valores asociados a la velocidad
+end
+gif(anim3, "anim_oscilador3.gif", fps = 60)  
+
+
+posiciones = []
+
+for j in 1:750
+    push!(posiciones, results_by_time[2*j - 1])
+end
+
+posiciones
